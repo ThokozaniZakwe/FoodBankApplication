@@ -1,0 +1,35 @@
+﻿@model User
+
+<ul class="nav nav-tabs mt-2">
+    <li class="nav-item">
+        <a class="nav-link" asp-action="Index">All Users <i class="fa-solid fa-users"></i></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" asp-action="Register">Add User <i class="fa-solid fa-user-plus"></i></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="Edit">Edit User <i class="fa-solid fa-user-pen"></i></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="Delete">Delete User <i class="fa-solid fa-trash-alt"></i></a>
+    </li>
+</ul>
+
+<h3 class="bg-primary text-center text-white p-4 rounded-1">Login <i class="fa-regular fa-user"></i> </h3>
+
+<form method="post">
+    @if(ViewContext.ModelState.Count > 0){
+        <div class="alert alert-danger" asp-validation-summary="All"></div>
+    }    
+    <div class="mb-2">
+        <label asp-for="@Model.Email">Username</label>
+        <input class="form-control" asp-for="@Model.Email" />
+    </div>
+    <div class="mb-2">
+        <label asp-for="@Model.Password">Password</label>
+        <input class="form-control" type="password" asp-for="@Model.Password" />
+    </div>
+    <div>
+        <button class="btn btn-outline-primary">Login <i class="fa-solid fa-location-arrow"></i></button>
+    </div>
+</form>

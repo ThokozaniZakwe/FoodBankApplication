@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+</head>
+<body>
+        <div class="container-fluid row" style="min-height:950px">
+            <nav class="col-2 p-1">
+                <ul class="nav nav-pills flex-column gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-primary text-center border border-primary" aria-current="Home" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-primary text-center border border-primary" aria-current="Home" asp-controller="Home" asp-action="Index">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-primary text-center border border-primary" aria-current="Home" asp-controller="Account" asp-action="Index">Users</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-primary text-center border border-primary" aria-current="Home" asp-controller="Candidate" asp-action="Index">Candidate</a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="col-10">
+                <div class="row mt-1">
+                    <partial name="_AuthPartial" model="@System.Security.Claims.ClaimsPrincipal.Current" />
+                </div>
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+        <footer class="row bg-white text-secondary text-center">
+             <p>T &amp; C &copy; 2024</p>
+        </footer>
+        <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

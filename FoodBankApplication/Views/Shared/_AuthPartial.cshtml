@@ -1,0 +1,60 @@
+﻿@model User
+@if (User.Identity.IsAuthenticated)
+{
+    <ul class="nav nav-tabs">
+        <li class="nav-item dropdown ms-auto">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                @User?.Identity?.Name
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="Edit">Edit</a></li>
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+else
+{
+    <div class="d-flex">
+        <button id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal" type="button" class="btn btn-primary ms-auto" asp-controller="Account" asp-action="LogIn">Login</button>
+    </div>
+}
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5" id="modalLabel">Login</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form method="post">
+                    @if (ViewContext.ModelState.Count > 0)
+                    {
+                        <div class="alert alert-danger" asp-validation-summary="All"></div>
+                    }
+                    <div class="form-floating mb-2">
+                        <input class="form-control" asp-for="@Model.Email" placeholder="Username" />
+                        <label asp-for="@Model.Email">Username</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input class="form-control" type="password" asp-for="@Model.Password" placeholder="Password" />
+                        <label asp-for="@Model.Password">Password</label>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary float-end ms-2" data-bs-dismiss="modal" aria-label="Close">Close <i class="fa-solid fa-circle-xmark"></i> </button>
+                        <button asp-controller="Account" asp-action="Login" class="btn btn-primary float-end">Login <i class="fa-solid fa-location-arrow"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+    let loginButton = document.getElementById('loginBtn');
+    loginButton.addEventListener('click', ()=>{
+        console.log('Login button clicked');
+    });
+</script>*@
