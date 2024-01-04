@@ -18,11 +18,12 @@ namespace FoodBankApplication.Global
         {
             SHA256 sHA256 = SHA256.Create();
 
-            var bytePassword = Encoding.Default.GetBytes(password);
+            //var bytePassword = Encoding.Default.GetBytes(password);
+            var bytePassword = Encoding.UTF8.GetBytes(password);
 
-            sHA256.ComputeHash(bytePassword);
+            var byteHash = sHA256.ComputeHash(bytePassword);
 
-            return Encoding.Default.GetString(bytePassword);
+            return Encoding.Default.GetString(byteHash);
         }
     }
 

@@ -21,7 +21,7 @@ namespace FoodBankApplication.Data.Security
         public DateTime? lastLogin { get; set; }
         public int LoginAttempt { get; set; } = 0;
         public bool IsDeleted { get; set; } = false;
-        public byte?[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public int? RoleId { get; set; }
         public virtual List<Role> Role { get; set; }

@@ -14,39 +14,35 @@
     </li>
 </ul>
 
-<div class="card">
-    <div class="card-body p-0">
-        @if (Model.Count  > 0)
-        {
-            <table class="table table-info table-striped">
-                <thead>
-                    <tr class="text-center">
-                        <th>FullName</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Last Login</th>
-                        <th>Created Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (User user in Model)
-                    {
-                        <tr class="text-center">
-                            <td class="text-dark">@user.FullName</td>
-                            <td class="text-dark"> @user.Email</td>
-                            <td class="text-dark">@((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description)</td>
-                            <td class="text-dark"> @(user?.lastLogin == null ? "Never" : user.lastLogin) </td>
-                            <td class="text-dark">@user.DateCreated</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-                <div class="card-body">
-                    <p class="display-3 text-center text-warning">No Users Found</p>
-                </div>
-        }
+
+@if (Model.Count > 0)
+{
+    @foreach (User user in Model)
+    {
+        <div class="card text-bg-primary p-0 me-4 mb-4 mt-2" style="width: 18rem;">
+            @*<img src="@ViewData["image"]" alt="ProfileImage" class="card-img-top" />*@
+            @if (user.Image != null)
+            {
+                <img class="card-img-top m-0" style="max-height: 18rem;" src="@Url.Action("GetImage", "Account", new { userId = user.Id})" alt="Profile Image" >
+            }
+            <div class="card-body">
+                <h5 class="card-title">@user.FullName</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group">@user.Email</li>
+                    <li class="list-group">@((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description)</li>
+                    <li class="list-group">LastLogin: @(user?.lastLogin == null ? "Never" : user.lastLogin)</li>
+                    <li class="list-group">Date Created: @user.DateCreated</li>
+                </ul>
+            </div>
+
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <p class="display-3 text-center text-warning">No Users Found</p>
+        </div>
     </div>
-</div>
+}

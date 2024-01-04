@@ -30,8 +30,27 @@ namespace FoodBankApplication.Controllers
             var users = await _context.Users.Where(u => !u.IsDeleted).Include(r => r.Role).ToListAsync();
             var roles = await _context.Roles.ToListAsync();
             ViewData["Roles"] = roles;
+            foreach(var user in users)
+            {
+                if (user.Image != null)
+                {
+                    var img = File(user.Image, "image/jpg");
+                    ViewData["image"] = String.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(img.FileContents));
+                }
+            }
 
             return View(users);
+        }
+
+        public async Task<IActionResult> GetImage(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+
+            if(user?.Image != null)
+            {
+                return File(user.Image, "image/jpg");
+            }
+            return NotFound();
         }
 
         [HttpGet]
@@ -48,11 +67,6 @@ namespace FoodBankApplication.Controllers
                 ModelState.AddModelError("Login", "Please Enter a Username and Password");
                 return View();
             }
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(user);
-            //}
 
             var checkUser = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == user.Email);
             if (checkUser == null)
@@ -98,7 +112,7 @@ namespace FoodBankApplication.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync([Bind(include: "Name,Surname,Email,Password")]User user)
+        public async Task<IActionResult> RegisterAsync([Bind(include: "Name,Surname,Email,Password,RoleId")]User user)
         {
             if (user == null)
             {
@@ -107,7 +121,6 @@ namespace FoodBankApplication.Controllers
 
             try
             {
-
                 Role role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
                 string salt = Security.GenerateSalt();
                 User newUser = new User
@@ -121,6 +134,16 @@ namespace FoodBankApplication.Controllers
                     Password = Security.GenerateHash(user.Password + salt),
                     RoleId = role?.Id ?? 1004
                 };
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    IFormFile imgFile = Request.Form.Files[0]; //.GetFile("imgFile");
+                    if (imgFile != null)
+                    {
+                        await imgFile.CopyToAsync(memoryStream);
+                        newUser.Image = memoryStream.ToArray();
+                    }
+                }
 
                 await _context.Users.AddAsync(newUser);
                 await _context.SaveChangesAsync();
