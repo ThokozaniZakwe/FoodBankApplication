@@ -19,5 +19,7 @@ namespace FoodBankApplication.Domain
         public DbSet<Role> Roles { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Status> Status { get; set; }
+        public Municipality Municipality { get; set; }
+        public HighSchoolGrade HighSchoolGrade { get; set; }
     }
 }
