@@ -1,0 +1,22 @@
+﻿@model Candidate
+
+<h1 class="text-white text-center bg-primary mt-3 p-3" style=box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;>Add Candidate</h1>
+
+<form method="post">
+    <div class="mb-2">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label asp-for="Surname">Surname</label>
+        <input asp-for="Surname" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label asp-for="IDNumber">ID Number</label>
+        <input asp-for="IDNumber" class="form-control" />
+    </div>
+    <div class="mb-2">
+        <label asp-for="DOB">Date Of Birth</label>
+        <input type="Date" asp-for="DOB" class="form-control" />
+    </div>
+</form>

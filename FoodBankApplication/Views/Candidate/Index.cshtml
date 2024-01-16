@@ -1,0 +1,36 @@
+﻿@model List<Candidate>
+
+<h1 class="text-white text-bg-secondary shadow-lg text-center p-2 mt-2 rounded-1">Candidates</h1>
+
+<table class="table table-primary table-bordered table-striped text-primary" style="box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>Province</th>
+            <th>Gender</th>
+            <th>Date Of Birth</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var candidate in Model)
+        {
+            <tr>
+                <td>@candidate.Name</td>
+                <td>@candidate.Surname</td>
+                <td>@candidate.AddressLine1</td>
+                <td>@candidate.City</td>
+                <td>@candidate.Province</td>
+                <td>@candidate.Gender</td>
+                <td>@candidate.DOB</td>
+                <td>@candidate.StatusId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<button type="button" class="btn btn-outline-primary shadow mt-3 rounded-circle" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 4rem; height: 4rem"><i class="fa-solid fa-user-plus"></i> </button>*@
+<a class="btn btn-primary shadow-lg mt-3 rounded-circle text-center pt-3" asp-action="Add" style="width: 4rem; height: 4rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;"><i class="fa-solid fa-user-plus"></i></a>
