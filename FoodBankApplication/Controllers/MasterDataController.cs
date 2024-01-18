@@ -2,11 +2,11 @@
 
 namespace FoodBankApplication.Controllers
 {
-    public class HomeController : Controller
+    public class MasterDataController : Controller
     {
         public IActionResult Index()
         {
-            ViewData["Menu"] = "home";
+            ViewData["Menu"] = "masterdata";
             return View();
         }
     }

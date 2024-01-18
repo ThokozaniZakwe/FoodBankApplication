@@ -30,6 +30,7 @@ namespace FoodBankApplication.Controllers
             var users = await _context.Users.Where(u => !u.IsDeleted).Include(r => r.Role).ToListAsync();
             var roles = await _context.Roles.ToListAsync();
             ViewData["Roles"] = roles;
+            ViewData["Menu"] = "users";
             foreach(var user in users)
             {
                 if (user.Image != null)
@@ -56,11 +57,13 @@ namespace FoodBankApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewData["Menu"] = "users";
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
+            //ViewData["Menu"] = "users";
             if (user == null)
             {
                 ModelState.Clear();
@@ -108,6 +111,7 @@ namespace FoodBankApplication.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Register()
         {
+            ViewData["Menu"] = "users";
             ViewBag.Roles = new SelectList(_context.Roles, "Id", "Description");
             return View();
         }
