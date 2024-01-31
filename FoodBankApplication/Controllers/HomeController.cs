@@ -7,6 +7,8 @@ namespace FoodBankApplication.Controllers
         public IActionResult Index()
         {
             ViewData["Menu"] = "home";
+            //ViewData["MessageToShow"] = "Error in Home Page";
+            //ViewData["MessageType"] = "Error";
             return View();
         }
     }

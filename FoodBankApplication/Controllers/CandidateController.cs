@@ -33,7 +33,7 @@ namespace FoodBankApplication.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Add([Bind("Name, Surname, Gender, DOB, IDNumber, AddressLine1, AddressLine2, Province, City, ContactNumbers, PostalCode, Region, IsDisabled, Comment")]Candidate candidate)
+        public async Task<IActionResult> Add([Bind("Name, Surname, Gender, DOB, IDNumber, AddressLine1, AddressLine2, Province, City, ContactNumbers, PostalCode, Region, IsDisabled, Comment, HighSchoolGradeId")]Candidate candidate)
         {
             ViewData["Menu"] = "candidate";
             if (candidate == null)
@@ -41,10 +41,14 @@ namespace FoodBankApplication.Controllers
                 return View();
             }
 
-            if(!ModelState.IsValid)
-            {
-                return View(candidate);
-            }
+            //if(!ModelState.IsValid)
+            //{
+            //    return View(candidate);
+            //}
+            candidate.Province = "Gauteng";
+
+            await _context.Candidates.AddAsync(candidate);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }

@@ -95,13 +95,17 @@ namespace FoodBankApplication.Controllers
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);
-                return RedirectToAction("Index", "Home");
+                ViewData["MessageToShow"] = "Login in successful";
+                ViewData["MessageType"] = "Success";
+                return RedirectToAction("Index", "Home", new {Message = "Login successful", MsgType = "Success"});
 
             }
             else
             {
                 ModelState.Clear();
                 ModelState.AddModelError("Login", "Invalid Username/Password");
+                ViewData["MessageToShow"] = "Error trying to login";
+                ViewData["MessageType"] = "Error";
             }
 
             return View();
@@ -153,6 +157,8 @@ namespace FoodBankApplication.Controllers
                 await _context.SaveChangesAsync();
                 string emailMessage = $"Your user profile has been successfully created.\n Your Username: {newUser.Email}\n Your Password: {user.Password}";
                 await _email.SendAsync("tezakwe@gmail.com", newUser.Email, "New User Creation", emailMessage);
+                ViewData["MessageToShow"] = "Succesfully Created";
+                ViewData["MessageType"] = "Success";
                 return RedirectToAction("Index");
             }
             catch(Exception ex)

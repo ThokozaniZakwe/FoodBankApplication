@@ -3,19 +3,19 @@
 
 <h1 class="text-white text-center bg-primary mt-3 p-3" style=box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;>Add Candidate</h1>
 
-<form method="post">
+<form method="post" id="formCandidate">
     <div class="container-fluid">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
             <div class="col-6">
                 <div class="mb-2">
                     <label asp-for="Name">Name</label>
-                    <input asp-for="Name" class="form-control" />
+                    <input tabindex="1" asp-for="Name" class="form-control" />
                     <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="Gender">Gender</label>
-                    <select class="form-control" asp-for="Gender">
+                    <select tabindex="3" class="form-control" asp-for="Gender">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
@@ -23,71 +23,76 @@
                 </div>
                 <div class="mb-2">
                     <label asp-for="IDNumber">ID Number</label>
-                    <input asp-for="IDNumber" class="form-control" />
+                    <input tabindex="5" asp-for="IDNumber" class="form-control" />
                     <span class="text-danger" asp-validation-for="IDNumber"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="AddressLine1">Street Address</label>
-                    <input asp-for="AddressLine1" class="form-control" />
+                    <input tabindex="7" asp-for="AddressLine1" class="form-control" />
                     <span class="text-danger" asp-validation-for="AddressLine1"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="City">City</label>
-                    <input asp-for="City" class="form-control" />
+                    <input tabindex="9" asp-for="City" class="form-control" />
                     <span class="text-danger" asp-validation-for="City"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="PostalCode">Postal Code</label>
-                    <input asp-for="PostalCode" class="form-control" />
+                    <input tabindex="11" asp-for="PostalCode" class="form-control" />
                     <span class="text-danger" asp-validation-for="PostalCode"></span>
+                </div>
+                <div class="mb-2">
+                    <label asp-for="HighShcoolGradeId">Highest School Grade </label>
+                    <input tabindex="13" asp-for="HighShcoolGradeId" class="form-control" />
+                    <span class="text-danger" asp-validation-for="HighShcoolGradeId"></span>
                 </div>
                 <div class="form-check mb-2">
                     <input type="checkbox" asp-for="IsDisabled" class="form-check-input" />
-                    <label asp-for="IsDisabled">Disabled</label>
+                    <label tabindex="15" asp-for="IsDisabled">Disabled</label>
                     <span class="text-danger" asp-validation-for="IsDisabled"></span>
                 </div>
             </div>
             <div class="col-6">
                     <div class="mb-2">
                         <label asp-for="Surname">Surname</label>
-                        <input asp-for="Surname" class="form-control" />
+                        <input tabIndex="2" asp-for="Surname" class="form-control" />
                     <span class="text-danger" asp-validation-for="Surname"></span>
                     </div>
                     <div class="mb-2">
                         <label asp-for="DOB">Date Of Birth</label>
-                        <input type="Date" asp-for="DOB" class="form-control" />
+                        <input tabIndex="4" type="Date" asp-for="DOB" class="form-control" />
                     </div>
                 <div class="mb-2">
                     <label asp-for="AddressLine2">Suburb</label>
-                    <input asp-for="AddressLine2" class="form-control" />
+                    <input tabIndex="6" asp-for="AddressLine2" class="form-control" />
                     <span class="text-danger" asp-validation-for="AddressLine2"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="Province">Province</label>
-                    <select class="form-control" asp-items="Html.GetEnumSelectList<Provinces>()">
+                    <select tabIndex="8" class="form-control" asp-items="Html.GetEnumSelectList<Provinces>()">
                     </select>
                     <span class="text-danger" asp-validation-for="Province"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="ContactNumbers">Contact Number</label>
-                    <input asp-for="ContactNumbers" class="form-control" />
+                    <input tabIndex="10" asp-for="ContactNumbers" class="form-control" />
                     <span class="text-danger" asp-validation-for="ContactNumbers"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="Region">Region</label>
-                    <input asp-for="Region" class="form-control" />
+                    <input tabindex="12" asp-for="Region" class="form-control" />
                     <span class="text-danger" asp-validation-for="Region"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="Comment">Comment</label>
-                    <textarea asp-for="Comment" class="form-control" cols="5"></textarea>
+                    <textarea tabindex="14" asp-for="Comment" class="form-control" cols="5"></textarea>
                     <span class="text-danger" asp-validation-for="Comment"></span>
                 </div>
             </div>
         </div>
         <div class="mt-2">
             <button type="submit" class="btn btn-primary btn-lg">Save <i class="fa-regular fa-floppy-disk"></i></button>
-            <button type="button" class="btn btn-secondary btn-lg">Clear <i class="fa-solid fa-eraser"></i></button>
+            <button type="button" id="clearForm" class="btn btn-secondary btn-lg">Clear <i class="fa-solid fa-eraser"></i></button>
         </div>
     </div>
 </form>
@@ -97,6 +102,16 @@
     let allInputs = document.querySelectorAll('input');
     let allTextArea = document.querySelectorAll('textarea');
     let allSelect = document.querySelectorAll('select');
+    let clearBtn = document.querySelector('#clearForm');
+    let form = document.getElementById('formCandidate');
+
+    clearBtn.addEventListener('click', ()=>{
+        //document.forms[0].reset();
+        //document.querySelector('form').reset();
+        console.log(form);
+        form.reset();
+        console.log(form);
+    })
 
     allInputs.forEach((item)=>{
         console.log(item.classList);
@@ -106,14 +121,14 @@
         }
     });
     allTextArea.forEach((item) => {
-        console.log(item.classList);
+        //console.log(item.classList);
         if (item.classList.contains('input-validation-error')) {
             item.classList.remove('input-validation-error');
             item.classList.add("is-invalid");
         }
     });
     allSelect.forEach((item) => {
-        console.log(item.classList);
+        //console.log(item.classList);
         if (item.classList.contains('input-validation-error')) {
             item.classList.remove('input-validation-error');
             item.classList.add("is-invalid");
@@ -122,12 +137,25 @@
 
     allInputs.forEach(item => {
         item.addEventListener('change', ()=>{
-            console.log(item.value.length);
+            //console.log(item.value.length);
             if(item.value.length > 1){
                 item.classList.remove('input-validation-error');
                 item.classList.remove('is-invalid');
                 item.classList.add("is-valid");
             }else{
+                item.classList.add('is-invalid');
+            }
+        })
+    });
+
+    allTextArea.forEach(item => {
+        item.addEventListener('change', () => {
+           // console.log(item.value.length);
+            if (item.value.length > 1) {
+                item.classList.remove('input-validation-error');
+                item.classList.remove('is-invalid');
+                item.classList.add("is-valid");
+            } else {
                 item.classList.add('is-invalid');
             }
         })
