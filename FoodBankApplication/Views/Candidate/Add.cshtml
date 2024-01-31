@@ -106,8 +106,6 @@
     let form = document.getElementById('formCandidate');
 
     clearBtn.addEventListener('click', ()=>{
-        //document.forms[0].reset();
-        //document.querySelector('form').reset();
         console.log(form);
         form.reset();
         console.log(form);
@@ -121,14 +119,12 @@
         }
     });
     allTextArea.forEach((item) => {
-        //console.log(item.classList);
         if (item.classList.contains('input-validation-error')) {
             item.classList.remove('input-validation-error');
             item.classList.add("is-invalid");
         }
     });
     allSelect.forEach((item) => {
-        //console.log(item.classList);
         if (item.classList.contains('input-validation-error')) {
             item.classList.remove('input-validation-error');
             item.classList.add("is-invalid");
@@ -137,7 +133,6 @@
 
     allInputs.forEach(item => {
         item.addEventListener('change', ()=>{
-            //console.log(item.value.length);
             if(item.value.length > 1){
                 item.classList.remove('input-validation-error');
                 item.classList.remove('is-invalid');
@@ -150,7 +145,6 @@
 
     allTextArea.forEach(item => {
         item.addEventListener('change', () => {
-           // console.log(item.value.length);
             if (item.value.length > 1) {
                 item.classList.remove('input-validation-error');
                 item.classList.remove('is-invalid');

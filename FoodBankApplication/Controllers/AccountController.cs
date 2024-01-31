@@ -63,7 +63,6 @@ namespace FoodBankApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            //ViewData["Menu"] = "users";
             if (user == null)
             {
                 ModelState.Clear();
@@ -145,7 +144,7 @@ namespace FoodBankApplication.Controllers
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    IFormFile imgFile = Request.Form.Files[0]; //.GetFile("imgFile");
+                    IFormFile imgFile = Request.Form.Files[0];
                     if (imgFile != null)
                     {
                         await imgFile.CopyToAsync(memoryStream);
