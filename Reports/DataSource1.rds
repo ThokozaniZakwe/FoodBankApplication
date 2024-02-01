@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="DataSource1">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=LAPTOP-CGQ3QEKA;Initial Catalog=FoodBankApplication;TrustServerCertificate=True</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>59aa095d-d6ba-4dc7-889b-1674b04259ae</DataSourceID>
+</RptDataSource>

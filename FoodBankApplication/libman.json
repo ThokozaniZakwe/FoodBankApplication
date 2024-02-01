@@ -9,6 +9,11 @@
     {
       "library": "font-awesome@6.5.1",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "print-js@1.6.0",
+      "destination": "wwwroot/lib/print-js/"
     }
   ]
 }
