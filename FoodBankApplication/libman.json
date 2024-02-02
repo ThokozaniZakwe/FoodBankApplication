@@ -11,9 +11,12 @@
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
-      "provider": "cdnjs",
       "library": "print-js@1.6.0",
       "destination": "wwwroot/lib/print-js/"
+    },
+    {
+      "library": "exceljs@4.4.0",
+      "destination": "wwwroot/lib/exceljs/"
     }
   ]
 }

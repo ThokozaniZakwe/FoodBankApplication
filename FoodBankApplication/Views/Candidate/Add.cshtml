@@ -42,9 +42,9 @@
                     <span class="text-danger" asp-validation-for="PostalCode"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="HighShcoolGradeId">Highest School Grade </label>
-                    <input tabindex="13" asp-for="HighShcoolGradeId" class="form-control" />
-                    <span class="text-danger" asp-validation-for="HighShcoolGradeId"></span>
+                    <label asp-for="HighSchoolGradeId">Highest School Grade </label>
+                    <input tabindex="13" asp-for="HighSchoolGradeId" class="form-control" />
+                    <span class="text-danger" asp-validation-for="HighSchoolGradeId"></span>
                 </div>
                 <div class="form-check mb-2">
                     <input type="checkbox" asp-for="IsDisabled" class="form-check-input" />
@@ -84,6 +84,14 @@
                     <span class="text-danger" asp-validation-for="Region"></span>
                 </div>
                 <div class="mb-2">
+                    <label asp-for="Region">Municipality</label>
+                    <div class="input-group">
+                        <input tabindex="12" type="text" id="municipality" class="form-control" />
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#municipalityModal"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                    <span class="text-danger" asp-validation-for="Region"></span>
+                </div>
+                <div class="mb-2">
                     <label asp-for="Comment">Comment</label>
                     <textarea tabindex="14" asp-for="Comment" class="form-control" cols="5"></textarea>
                     <span class="text-danger" asp-validation-for="Comment"></span>
@@ -97,6 +105,31 @@
     </div>
 </form>
 
+<div class="modal" id="municipalityModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Choose Municipality</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-white">
+                <ul class="list-group">
+                    @foreach(var item in ViewBag.Municipalities)
+                    {
+                        <li class="list-group-item list-group-item-primary municipality" style="cursor: pointer;">
+                                @((item as Municipality)?.Description ?? "")        
+                        </li>   
+                        
+                    }
+                </ul>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     let allInputs = document.querySelectorAll('input');
@@ -106,9 +139,9 @@
     let form = document.getElementById('formCandidate');
 
     clearBtn.addEventListener('click', ()=>{
-        console.log(form);
+        //console.log(form);
         form.reset();
-        console.log(form);
+        //console.log(form);
     })
 
     allInputs.forEach((item)=>{
@@ -153,5 +186,21 @@
                 item.classList.add('is-invalid');
             }
         })
+    });
+
+    //---------------------------Municipalities Modal---------------------------------
+    document.addEventListener('DOMContentLoaded', ()=>{
+        let municipalitiesList = document.querySelectorAll('.municipality');
+        let municipalityTextbox = document.getElementById('municipality');
+        let municipalityModal = new bootstrap.Modal('#municipalityModal');
+        
+        for(let i = 0; i < municipalitiesList.length; i++){
+            municipalitiesList[i].addEventListener('click', function(){
+                console.log(this.textContent.trim());
+                municipalityTextbox.value = this.textContent.trim();
+                municipalityTextbox.focus();
+                municipalityModal.hide();
+            });
+        }
     });
 </script>

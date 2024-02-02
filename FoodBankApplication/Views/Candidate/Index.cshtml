@@ -2,7 +2,7 @@
 
 <h1 class="text-white text-bg-secondary shadow-lg text-center p-2 mt-2 rounded-1">Candidates</h1>
 
-<table class="table table-primary table-bordered table-stripedy" style="box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
+<table id="candidatesPrint" class="table table-primary table-bordered table-stripedy" style="box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
     <thead>
         <tr>
             <th class="text-center">Name</th>
@@ -34,3 +34,12 @@
 
 @*<button type="button" class="btn btn-outline-primary shadow mt-3 rounded-circle" data-bs-toggle="modal" data-bs-target="#addModal" style="width: 4rem; height: 4rem"><i class="fa-solid fa-user-plus"></i> </button>*@
 <a class="btn btn-primary shadow-lg mt-3 rounded-circle text-center pt-3" asp-action="Add" style="width: 4rem; height: 4rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;"><i class="fa-solid fa-user-plus"></i></a>
+<button id="print" class="btn btn-primary" onclick="printJS('candidatesPrint', 'html')">Print</button>
+
+<script>
+    //document.getElementById('print').addEventListener('click', ()=>{
+    //    console.log(window);
+        
+    //    window.print();
+    //});
+</script>

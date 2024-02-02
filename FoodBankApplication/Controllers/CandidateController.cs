@@ -3,6 +3,7 @@ using FoodBankApplication.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodBankApplication.Controllers
 {
@@ -25,30 +26,32 @@ namespace FoodBankApplication.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             ViewData["Menu"] = "candidate";
+            ViewBag.Municipalities = await _context.Municipalities.Where(m => !m.IsDeleted).ToListAsync();
             return View();
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Add([Bind("Name, Surname, Gender, DOB, IDNumber, AddressLine1, AddressLine2, Province, City, ContactNumbers, PostalCode, Region, IsDisabled, Comment, HighSchoolGradeId")]Candidate candidate)
+        public async Task<IActionResult> Add([Bind("Name, Surname, Gender, DOB, IDNumber, AddressLine1, AddressLine2, Province, City, ContactNumbers, PostalCode, Region, IsDisabled, Comment, HighSchoolGradeId, municipality")]Candidate candidate)
         {
             ViewData["Menu"] = "candidate";
             if (candidate == null)
             {
                 return View();
             }
-
-            //if(!ModelState.IsValid)
-            //{
-            //    return View(candidate);
-            //}
             candidate.Province = "Gauteng";
+            candidate.StatusId = _context.Status.Where(s => !s.IsDeleted && s.Description == "New").FirstOrDefault().Id;
+            //var highSchoolGrade = await _context.HighSchoolGrades.Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == candidate.HighShcoolGradeId);
+            candidate.MunicipalityId = 2;
 
             await _context.Candidates.AddAsync(candidate);
             await _context.SaveChangesAsync();
+
+            TempData["MessageToShow"] = "New Candidate Succesfully Created";
+            TempData["MessageType"] = "Success";
 
             return RedirectToAction(nameof(Index));
         }
