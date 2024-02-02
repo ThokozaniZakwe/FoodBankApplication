@@ -63,7 +63,6 @@ namespace FoodBankApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            //ViewData["Menu"] = "users";
             if (user == null)
             {
                 ModelState.Clear();
@@ -95,8 +94,8 @@ namespace FoodBankApplication.Controllers
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);
-                ViewData["MessageToShow"] = "Login in successful";
-                ViewData["MessageType"] = "Success";
+                TempData["MessageToShow"] = "Login in successful";
+                TempData["MessageType"] = "Success";
                 return RedirectToAction("Index", "Home", new {Message = "Login successful", MsgType = "Success"});
 
             }
@@ -104,8 +103,8 @@ namespace FoodBankApplication.Controllers
             {
                 ModelState.Clear();
                 ModelState.AddModelError("Login", "Invalid Username/Password");
-                ViewData["MessageToShow"] = "Error trying to login";
-                ViewData["MessageType"] = "Error";
+                TempData["MessageToShow"] = "Error trying to login";
+                TempData["MessageType"] = "Error";
             }
 
             return View();
@@ -145,7 +144,7 @@ namespace FoodBankApplication.Controllers
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    IFormFile imgFile = Request.Form.Files[0]; //.GetFile("imgFile");
+                    IFormFile imgFile = Request.Form.Files[0];
                     if (imgFile != null)
                     {
                         await imgFile.CopyToAsync(memoryStream);
@@ -157,8 +156,8 @@ namespace FoodBankApplication.Controllers
                 await _context.SaveChangesAsync();
                 string emailMessage = $"Your user profile has been successfully created.\n Your Username: {newUser.Email}\n Your Password: {user.Password}";
                 await _email.SendAsync("tezakwe@gmail.com", newUser.Email, "New User Creation", emailMessage);
-                ViewData["MessageToShow"] = "Succesfully Created";
-                ViewData["MessageType"] = "Success";
+                TempData["MessageToShow"] = "New User Succesfully Created";
+                TempData["MessageType"] = "Success";
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
@@ -174,11 +173,15 @@ namespace FoodBankApplication.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+            TempData["MessageToShow"] = "Succesfully Logged Out";
+            TempData["MessageType"] = "Success";
             return RedirectToAction("Index", "home");
         }
 
         public IActionResult AccessDenied()
         {
+            TempData["MessageToShow"] = "You do not have access to the page";
+            TempData["MessageType"] = "Error";
             return View();
         }
     }

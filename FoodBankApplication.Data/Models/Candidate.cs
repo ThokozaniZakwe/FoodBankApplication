@@ -29,10 +29,10 @@ namespace FoodBankApplication.Data.Models
         public int StatusId { get; set; }
         public virtual Status Status { get; set; }
 
-        public int HighShcoolGradeId { get; set; }
-        public HighSchoolGrade HighSchoolGrade { get; set; }
+        public int HighSchoolGradeId { get; set; }
+        public virtual HighSchoolGrade HighSchoolGrade { get; set; }
 
         public int MunicipalityId { get; set; }
-        public Municipality Municipality { get; set; }
+        public virtual Municipality Municipality { get; set; }
     }
 }

@@ -6,9 +6,10 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <script src="~/lib/print-js/print.min.js"></script>
 </head>
 <body class="position-relative">
-    <div class="container-fluid row" style="min-height:930px">
+    <div class="container-fluid row" style="min-height:90vh; max-width: 100vw;">
         <nav class="col-2 p-1">
             <ul class="nav nav-pills flex-column gap-1">
                 <li class="nav-item">
@@ -34,20 +35,20 @@
             </div>
             <div class="row">
                 @RenderBody()
-                <input type="hidden" id="toastMsg" value="@ViewData["MessageToShow"]" style="display: none" />
-                <input type="hidden" id="toastType" value="@ViewData["MessageType"]" style="display: none" />
-                <div class="toast align-items-center @((ViewData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 opacity-75 position-absolute bottom-0 end-0 fixed shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header @((ViewData["MessageType"] as string) == "Success" ? "text-success" : "text-danger")" id="toast">
+                <input type="hidden" id="toastMsg" value="@TempData["MessageToShow"]" style="display: none" />
+                <input type="hidden" id="toastType" value="@TempData["MessageType"]" style="display: none" />
+                <div class="toast align-items-center @((TempData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 opacity-75 position-absolute bottom-0 end-0 fixed shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header @((TempData["MessageType"] as string) == "Success" ? "text-success" : "text-danger")" id="toast">
                         <strong class="me-auto">Toast Message</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body d-flex justify-content-between align-items-center">
-                        @(ViewData["MessageToShow"])
-                        @if ((ViewData["MessageType"] as string) == "Success")
+                        @(TempData["MessageToShow"])
+                        @if ((TempData["MessageType"] as string) == "Success")
                         {
                             <i class="fa-solid fa-circle-check fa-2xl"></i>
                         }
-                        else if ((ViewData["MessageType"] as string) == "Error")
+                        else if ((TempData["MessageType"] as string) == "Error")
                         {
                             <i class="fa-solid fa-triangle-exclamation fa-2xl"></i>
                         }
@@ -72,20 +73,6 @@
         if(messageToShow.value){
             new bootstrap.Toast(toastMessage).show();
         }
-                //console.log(messageToShow.textContent);
-                //let msg =
-                // //@Html.//Raw(Json.Serialize(@ViewBag//["MessageToShow"]));
-                //console.log(@ViewData//["MessageToShow"]);
-                //if(messageToShow.textContent)
-                    //new bootstrap.Toast(toastMessage).show();
-
-                        //let toast = document.querySelectorAll('.toast');
-                        //console.log(toast);
-
-                        //for(let i = 0; i < toast.length; i++){
-                        //    new bootstrap.Toast(toast[i]).show(); console.log(toast[i]);
-                        //    //toastBootstrap.show();
-                        //}
     </script>
 </body>
 </html>
