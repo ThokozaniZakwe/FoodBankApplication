@@ -6,12 +6,18 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/print-js/print.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="~/lib/apexcharts/apexcharts.min.css" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
 </head>
 <body class="position-relative">
     <div class="container-fluid row" style="min-height:90vh; max-width: 100vw;">
-        <nav class="col-2 p-1">
-            <ul class="nav nav-pills flex-column gap-1">
+        <nav class="col-3 p-1">
+            <div class="row">
+            <ul class="nav nav-pills flex-column gap-1 mb-3">
                 <li class="nav-item">
                     <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "home"? "active text-white":"")" aria-current="Home" asp-controller="Home" asp-action="Index">Home <i class="fa-solid fa-house"></i></a>
                 </li>
@@ -28,8 +34,18 @@
                     <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "masterdata"? "active text-white":"")" aria-current="Home" asp-controller="MasterData" asp-action="Index">MasterData <i class="fa-solid fa-database"></i></a>
                 </li>
             </ul>
+            </div>
+            <div class="row d-none d-xxl-block mb-3">
+                <div id="chartYearStats"></div>
+            </div>
+            <div class="row d-none d-xxl-block mb-3">
+                <div id="chartPie"></div>
+            </div>
+            <div class="row d-none d-xxl-block mb-3">
+                <div id="chartMonthStats"></div>
+            </div>            
         </nav>
-        <main class="col-10">
+        <main class="col-9">
             <div class="row mt-1">
                 <partial name="_AuthPartial" model="@System.Security.Claims.ClaimsPrincipal.Current" />
             </div>
@@ -37,7 +53,7 @@
                 @RenderBody()
                 <input type="hidden" id="toastMsg" value="@TempData["MessageToShow"]" style="display: none" />
                 <input type="hidden" id="toastType" value="@TempData["MessageType"]" style="display: none" />
-                <div class="toast align-items-center @((TempData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 opacity-75 position-absolute bottom-0 end-0 fixed shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast align-items-center @((TempData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 opacity-75 position-absolute position-fixed bottom-0 end-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header @((TempData["MessageType"] as string) == "Success" ? "text-success" : "text-danger")" id="toast">
                         <strong class="me-auto">Toast Message</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -63,7 +79,7 @@
     </footer>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
-
+        //Toast Section
         let toastMessage = document.querySelector('.toast');
         let messageToShow = document.querySelector('#toastMsg');
         let messageType = document.querySelector('#toastType');
@@ -73,6 +89,77 @@
         if(messageToShow.value){
             new bootstrap.Toast(toastMessage).show();
         }
+
+        //Chart Section
+        var optionsYearly = {
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'sales',
+                data: [30, 40, 35, 50, 49, 40, 70, 55, 66]
+            }],
+            xaxis: {
+                categories: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+            }
+        }
+
+        optionsMonthly = {
+            chart: {
+                type: 'bar',
+                strokeColor: '##D4D728'
+            },
+            series: [{
+                data: [{
+                    x: 'December 2023',
+                    y: 10,
+                    goals: [
+                        {
+                            name: 'New',
+                            value: 12,
+                            strokeColor: '#775D00'
+                        }
+                    ],
+                }, {
+                    x: 'January 2024',
+                    y: 18,
+                    goals: [
+                        {
+                            name: 'New',
+                            value: 16,
+                            strokeColor: '#775D00'
+                        }                        
+                    ]
+                }, {
+                    x: 'February 2024',
+                    y: 13,
+                    goals: [
+                        {
+                            name: 'New',
+                            value: 15,
+                            strokeColor: '#775D00'
+                        }                        
+                    ]
+                }]
+            }]
+        }
+
+        optionsPie = {
+            chart: {
+                type: 'donut'
+            },
+            series: [44, 55, 13, 33],
+            labels: ['New', 'Pending', 'Referred', 'Completed']
+        };
+
+        var chartYealy = new ApexCharts(document.querySelector("#chartYearStats"), optionsYearly);
+        var chartMonthly = new ApexCharts(document.querySelector("#chartMonthStats"), optionsMonthly);
+        var chartPie = new ApexCharts(document.querySelector("#chartPie"), optionsPie);
+
+        chartYealy.render();
+        chartPie.render();
+        chartMonthly.render();
+        
     </script>
 </body>
 </html>
