@@ -42,18 +42,30 @@ namespace FoodBankApplication.Controllers
             {
                 return View();
             }
-            candidate.Province = "Gauteng";
-            candidate.StatusId = _context.Status.Where(s => !s.IsDeleted && s.Description == "New").FirstOrDefault().Id;
-            //var highSchoolGrade = await _context.HighSchoolGrades.Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == candidate.HighShcoolGradeId);
-            candidate.MunicipalityId = 2;
+            try
+            {
 
-            await _context.Candidates.AddAsync(candidate);
-            await _context.SaveChangesAsync();
+                candidate.Province = "Gauteng";
+                candidate.StatusId = _context.Status.Where(s => !s.IsDeleted && s.Description == "New").FirstOrDefault().Id;
+                //var highSchoolGrade = await _context.HighSchoolGrades.Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == candidate.HighShcoolGradeId);
+                candidate.MunicipalityId = 2;
 
-            TempData["MessageToShow"] = "New Candidate Succesfully Created";
-            TempData["MessageType"] = "Success";
+                await _context.Candidates.AddAsync(candidate);
+                await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+                TempData["MessageToShow"] = "New Candidate Succesfully Created";
+                TempData["MessageType"] = "Success";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Municipalities = await _context.Municipalities.Where(m => !m.IsDeleted).ToListAsync();
+                ModelState.AddModelError("Unknown Error Occurred", ex.Message);
+                TempData["MessageToShow"] = "Error Occurred";
+                TempData["MessageType"] = "Error";
+                return View(candidate);
+            }
         }
     }
 

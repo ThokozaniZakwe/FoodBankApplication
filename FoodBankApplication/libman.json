@@ -32,6 +32,10 @@
     {
       "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "apexcharts@3.45.2",
+      "destination": "wwwroot/lib/apexcharts/"
     }
   ]
 }

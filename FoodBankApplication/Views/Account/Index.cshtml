@@ -19,8 +19,11 @@
 {
     @foreach (User user in Model)
     {
-        <div class="card shadow-lg text-bg-primary p-0 me-4 mb-4 mt-2" style="width: 18rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
+        <div class="card shadow-lg text-bg-primary position-relative p-0 me-4 mb-4 mt-2" style="width: 18rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
             @*<img src="@ViewData["image"]" alt="ProfileImage" class="card-img-top" />*@
+            <span class="position-absolute display-4 top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description.Substring(0,1))
+            </span>
             @if (user.Image != null)
             {
                 <img class="card-img-top m-0" style="max-height: 18rem;" src="@Url.Action("GetImage", "Account", new { userId = user.Id})" alt="Profile Image" >
