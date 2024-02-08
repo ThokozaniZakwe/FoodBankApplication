@@ -91,6 +91,7 @@ namespace FoodBankApplication.Controllers
 
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
                 identity.AddClaim(new Claim(ClaimTypes.Name, checkUser.FullName));
+                identity.AddClaim(new Claim("Id", checkUser.Id.ToString()));
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);

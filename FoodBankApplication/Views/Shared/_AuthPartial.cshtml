@@ -1,22 +1,33 @@
 ﻿@model User
 @if (User.Identity.IsAuthenticated)
 {
-    <ul class="nav nav-tabs">
-        <li class="nav-item dropdown ms-auto">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                @User?.Identity?.Name
+    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+        <li class="nav-item dropdown">
+            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                @*<img src="~/lib/images/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">*@
+                <img class="rounded-circle" src="@Url.Action("GetImage", "Account", new { userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value})" alt="Profile Image" width="35" height="35">
             </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" asp-controller="Account" asp-action="Edit">Edit</a></li>
-                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
-            </ul>
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                        <i class="ti ti-user fs-6"></i>
+                        <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a asp-controller="Account" asp-action="Edit" class="d-flex align-items-center gap-2 dropdown-item">
+                        <i class="ti ti-mail fs-6"></i>
+                        <p class="mb-0 fs-3">My Account</p>
+                    </a>
+                    <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                </div>
+            </div>
         </li>
     </ul>
 }
 else
 {
     <div class="d-flex">
-        <button id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal" type="button" class="btn btn-primary ms-auto" asp-controller="Account" asp-action="LogIn">Login</button>
+        <a class="btn btn-primary ms-auto" asp-controller="Account" asp-action="LogIn">Login</a>
     </div>
 }
 
@@ -51,10 +62,3 @@ else
         </div>
     </div>
 </div>
-
-@*<script>
-    let loginButton = document.getElementById('loginBtn');
-    loginButton.addEventListener('click', ()=>{
-        console.log('Login button clicked');
-    });
-</script>*@

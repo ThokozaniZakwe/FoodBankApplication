@@ -1,3 +1,178 @@
 ﻿@{
 }
-<h3 class="bg-success text-white text-center p-3 mt-2">Welcome to the foodbank Application</h3>
+@*<h3 class="bg-success text-white text-center p-3 mt-2">Welcome to the foodbank Application</h3>*@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-lg-6 mb-3">
+            <div id="chartYearStats"></div>
+        </div>
+        <div class="row col-md-4 col-lg-6 mb-3">
+            <div id="chartPie"></div>
+        </div>
+        <div class="row col-md-4 col-lg-6 mb-3">
+            <div id="chartMonthStats"></div>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-lg-8 d-flex align-items-strech">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                        <div class="mb-3 mb-sm-0">
+                            <h5 class="card-title fw-semibold">Profiling Overview</h5>
+                        </div>
+                        <div>
+                            <select class="form-select">
+                                <option value="1">October 2023</option>
+                                <option value="2">November 2023</option>
+                                <option value="3">December 2023</option>
+                                <option value="4">January 2024</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Yearly Breakup -->
+                    <div class="card overflow-hidden">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-9 fw-semibold">Yearly Breakup</h5>
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="fw-semibold mb-3">58</h4>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-arrow-up-left text-success"></i>
+                                        </span>
+                                        <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                        <p class="fs-3 mb-0">last year</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-4">
+                                            <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                                            <span class="fs-2">2023</span>
+                                        </div>
+                                        <div>
+                                            <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
+                                            <span class="fs-2">2023</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-center">
+                                        <div id="breakup"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <!-- Monthly Rate -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row alig n-items-start">
+                                <div class="col-8">
+                                    <h5 class="card-title mb-9 fw-semibold"> Monthly Rate </h5>
+                                    <h4 class="fw-semibold mb-3">20</h4>
+                                    <div class="d-flex align-items-center pb-1">
+                                        <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-arrow-down-right text-danger"></i>
+                                        </span>
+                                        <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                        <p class="fs-3 mb-0">last year</p>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-percentage fs-6"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="earning"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Chart Section
+    var optionsYearly = {
+        chart: {
+            type: 'line'
+        },
+        series: [{
+            name: 'sales',
+            data: [30, 40, 35, 50, 49, 40, 70, 55, 66]
+        }],
+        xaxis: {
+            categories: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+        }
+    }
+
+    optionsMonthly = {
+        chart: {
+            type: 'bar',
+            strokeColor: '##D4D728'
+        },
+        series: [{
+            data: [{
+                x: 'December 2023',
+                y: 10,
+                goals: [
+                    {
+                        name: 'New',
+                        value: 12,
+                        strokeColor: '#775D00'
+                    }
+                ],
+            }, {
+                x: 'January 2024',
+                y: 18,
+                goals: [
+                    {
+                        name: 'New',
+                        value: 16,
+                        strokeColor: '#775D00'
+                    }
+                ]
+            }, {
+                x: 'February 2024',
+                y: 13,
+                goals: [
+                    {
+                        name: 'New',
+                        value: 15,
+                        strokeColor: '#775D00'
+                    }
+                ]
+            }]
+        }]
+    }
+
+    optionsPie = {
+        chart: {
+            type: 'donut'
+        },
+        series: [44, 55, 13, 33],
+        labels: ['New', 'Pending', 'Referred', 'Completed']
+    };
+
+    var chartYealy = new ApexCharts(document.querySelector("#chartYearStats"), optionsYearly);
+    var chartMonthly = new ApexCharts(document.querySelector("#chartMonthStats"), optionsMonthly);
+    var chartPie = new ApexCharts(document.querySelector("#chartPie"), optionsPie);
+
+    chartYealy.render();
+    chartPie.render();
+    chartMonthly.render();
+</script>
