@@ -22,16 +22,12 @@ namespace FoodBankApplication.Controllers
 
         public IActionResult PrintPDF()
         {
-            //ViewBag.ReportServerUrl = "https://localhost/reportserver";
-            //ViewBag.ReportPath = "/Reports/Users";
-            //string reportPath = Path.Combine(hostEnvironment.WebRootPath, "Reports/Users.rdl");
-            //string reportPath = Path.Combine(@"C:\Users\tezak\source\repos\FoodBankApplication\Reports", "Users.rdl"); //Path.Combine(hostEnvironment.ContentRootPath + "Reports/Users.rdl");
-            //FileStream inputStream = new FileStream(reportPath, FileMode.Open, FileAccess.Read);
-            //MemoryStream reportStream = new MemoryStream();
-            //inputStream.CopyTo(reportStream);
-            //reportStream.Position = 0;
-            //inputStream.Close();
+            return View();
+        }
 
+        public IActionResult Privacy()
+        {
+            ViewData["Menu"] = "privacy";
             return View();
         }
     }

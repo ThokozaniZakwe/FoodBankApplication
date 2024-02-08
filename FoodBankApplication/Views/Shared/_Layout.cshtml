@@ -6,78 +6,187 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-    <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/print-js/print.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="~/lib/apexcharts/apexcharts.min.css" />
     <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <link rel="stylesheet" href="~/lib/css/styles.min.css" />
+
 </head>
 <body class="position-relative">
-    <div class="container-fluid row" style="min-height:90vh; max-width: 100vw;">
-        <nav class="col-3 p-1">
-            <div class="row">
-            <ul class="nav nav-pills flex-column gap-1 mb-3">
-                <li class="nav-item">
-                    <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "home"? "active text-white":"")" aria-current="Home" asp-controller="Home" asp-action="Index">Home <i class="fa-solid fa-house"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "privacy"? "active text-white":"")" aria-current="Home" asp-controller="Home" asp-action="Index">Privacy <i class="fa-solid fa-lock"></i> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "users"? "active text-white":"")" aria-current="Home" asp-controller="Account" asp-action="Index">Users <i class="fa-solid fa-users"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "candidate"? "active text-white":"")" aria-current="Home" asp-controller="Candidate" asp-action="Index">Candidate <i class="fa-solid fa-user-check"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary text-center border border-primary @((ViewData["Menu"] as string) == "masterdata"? "active text-white":"")" aria-current="Home" asp-controller="MasterData" asp-action="Index">MasterData <i class="fa-solid fa-database"></i></a>
-                </li>
-            </ul>
-            </div>
-            <div class="row d-none d-xxl-block mb-3">
-                <div id="chartYearStats"></div>
-            </div>
-            <div class="row d-none d-xxl-block mb-3">
-                <div id="chartPie"></div>
-            </div>
-            <div class="row d-none d-xxl-block mb-3">
-                <div id="chartMonthStats"></div>
-            </div>            
-        </nav>
-        <main class="col-9">
-            <div class="row mt-1">
-                <partial name="_AuthPartial" model="@System.Security.Claims.ClaimsPrincipal.Current" />
-            </div>
-            <div class="row">
-                @RenderBody()
-                <input type="hidden" id="toastMsg" value="@TempData["MessageToShow"]" style="display: none" />
-                <input type="hidden" id="toastType" value="@TempData["MessageType"]" style="display: none" />
-                <div class="toast align-items-center @((TempData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 opacity-75 position-absolute position-fixed bottom-0 end-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header @((TempData["MessageType"] as string) == "Success" ? "text-success" : "text-danger")" id="toast">
-                        <strong class="me-auto">Toast Message</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body d-flex justify-content-between align-items-center">
-                        @(TempData["MessageToShow"])
-                        @if ((TempData["MessageType"] as string) == "Success")
-                        {
-                            <i class="fa-solid fa-circle-check fa-2xl"></i>
-                        }
-                        else if ((TempData["MessageType"] as string) == "Error")
-                        {
-                            <i class="fa-solid fa-triangle-exclamation fa-2xl"></i>
-                        }
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+                    <a asp-controller="Home" asp-action="Index" class="text-nowrap logo-img">
+                        <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" />
+                    </a>
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
-                @*</div>*@
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-layout-dashboard"></i>
+                                </span>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">ADMIN</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Account" asp-action="Index" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-users"></i>
+                                </span>
+                                <span class="hide-menu">Users</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-alert-circle"></i>
+                                </span>
+                                <span class="hide-menu">Alerts</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Candidate" asp-action="Index" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-person"></i>
+                                </span>
+                                <span class="hide-menu">Candidate</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="MasterData" asp-action="Index" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-server"></i>
+                                </span>
+                                <span class="hide-menu">MasterData</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">AUTH</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Account" asp-action="Login" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-login"></i>
+                                </span>
+                                <span class="hide-menu">Login</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Account" asp-action="Register" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-plus"></i>
+                                </span>
+                                <span class="hide-menu">Register</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">EXTRA</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="MasterData" asp-action="Index" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-server"></i>
+                                </span>
+                                <span class="hide-menu">MasterData</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
             </div>
-        </main>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                                <i class="ti ti-menu-2"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                                <i class="ti ti-bell-ringing"></i>
+                                <div class="notification bg-primary rounded-circle"></div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        <partial name="_AuthPartial" model="@System.Security.Claims.ClaimsPrincipal.Current" />
+                    </div>
+                </nav>
+            </header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <!--  Row 1 -->
+
+                
+                <div class="row">
+                    @RenderBody();
+                </div>
+
+                @*Toast section*@
+                <div>
+                    <input type="hidden" id="toastMsg" value="@TempData["MessageToShow"]" style="display: none" />
+                    <input type="hidden" id="toastType" value="@TempData["MessageType"]" style="display: none" />
+                    <div class="toast align-items-center @((TempData["MessageType"] as string) == "Success" ? "text-success border-success" : "text-danger border-danger") border-2 position-absolute position-fixed bottom-0 end-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header @((TempData["MessageType"] as string) == "Success" ? "text-success" : "text-danger")" id="toast">
+                            <strong class="me-auto">Message</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body d-flex justify-content-between align-items-center">
+                            @(TempData["MessageToShow"])
+                            @if ((TempData["MessageType"] as string) == "Success")
+                            {
+                                <i class="fa-solid fa-circle-check fa-2xl"></i>
+                            }
+                            else if ((TempData["MessageType"] as string) == "Error")
+                            {
+                                <i class="fa-solid fa-triangle-exclamation fa-2xl"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-6 px-6 text-center">
+                    <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Thokozani Zakwe</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <footer class="row bg-white text-secondary text-center">
-        <p>T &amp; C &copy; 2024</p>
-    </footer>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/assets/js/sidebarmenu.js"></script>
+    <script src="~/lib/assets/js/app.min.js"></script>
+    <script src="~/lib/assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="~/lib/assets/js/dashboard.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
     <script>
         //Toast Section
         let toastMessage = document.querySelector('.toast');
@@ -86,80 +195,14 @@
         console.log(messageType.value);
         console.log(messageToShow.value);
 
-        if(messageToShow.value){
+        if (messageToShow.value) {
             new bootstrap.Toast(toastMessage).show();
         }
 
-        //Chart Section
-        var optionsYearly = {
-            chart: {
-                type: 'line'
-            },
-            series: [{
-                name: 'sales',
-                data: [30, 40, 35, 50, 49, 40, 70, 55, 66]
-            }],
-            xaxis: {
-                categories: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-            }
-        }
 
-        optionsMonthly = {
-            chart: {
-                type: 'bar',
-                strokeColor: '##D4D728'
-            },
-            series: [{
-                data: [{
-                    x: 'December 2023',
-                    y: 10,
-                    goals: [
-                        {
-                            name: 'New',
-                            value: 12,
-                            strokeColor: '#775D00'
-                        }
-                    ],
-                }, {
-                    x: 'January 2024',
-                    y: 18,
-                    goals: [
-                        {
-                            name: 'New',
-                            value: 16,
-                            strokeColor: '#775D00'
-                        }                        
-                    ]
-                }, {
-                    x: 'February 2024',
-                    y: 13,
-                    goals: [
-                        {
-                            name: 'New',
-                            value: 15,
-                            strokeColor: '#775D00'
-                        }                        
-                    ]
-                }]
-            }]
-        }
-
-        optionsPie = {
-            chart: {
-                type: 'donut'
-            },
-            series: [44, 55, 13, 33],
-            labels: ['New', 'Pending', 'Referred', 'Completed']
-        };
-
-        var chartYealy = new ApexCharts(document.querySelector("#chartYearStats"), optionsYearly);
-        var chartMonthly = new ApexCharts(document.querySelector("#chartMonthStats"), optionsMonthly);
-        var chartPie = new ApexCharts(document.querySelector("#chartPie"), optionsPie);
-
-        chartYealy.render();
-        chartPie.render();
-        chartMonthly.render();
-        
+        $(document).ready(function () {
+            $('#candidatesPrint').DataTable();
+        });
     </script>
 </body>
 </html>
