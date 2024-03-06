@@ -20,8 +20,7 @@ namespace FoodBankApplication.Controllers
         {
 
             ViewData["Menu"] = "candidate";
-            var candidates = _context.Candidates.Where(c => !c.IsDeleted).
-                OrderBy(x => x.Id).Skip((pageNumber - 1) * PageSize).Take(PageSize).ToList();
+            var candidates = _context.Candidates.Where(c => !c.IsDeleted).Include(x => x.Status).Include(x => x.HighSchoolGrade).Include(x => x.Municipality).ToList();
             return View(candidates);
         }
 

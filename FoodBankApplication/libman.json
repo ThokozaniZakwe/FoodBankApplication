@@ -36,6 +36,10 @@
     {
       "library": "apexcharts@3.45.2",
       "destination": "wwwroot/lib/apexcharts/"
+    },
+    {
+      "library": "FileSaver.js@2.0.5",
+      "destination": "wwwroot/lib/FileSaver.js/"
     }
   ]
 }

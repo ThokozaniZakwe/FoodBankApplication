@@ -18,24 +18,22 @@
 @if (Model.Count > 0)
 {
     @foreach (User user in Model)
-    {
-        <div class="card shadow-lg text-bg-primary position-relative p-0 me-4 mb-4 mt-2" style="width: 18rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important;">
-            @*<img src="@ViewData["image"]" alt="ProfileImage" class="card-img-top" />*@
-            <span class="position-absolute display-4 top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                @((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description.Substring(0,1))
-            </span>
+    {   
+        <div class="card shadow-lg text-bg-primary position-relative p-0 me-4 mb-4" style="width: 18rem; box-shadow: 4px 2px 5px 0px rgba(0,0,0,0.75) !important; margin-top: 80px;">
+            
             @if (user.Image != null)
             {
-                <img class="card-img-top m-0" style="max-height: 18rem;" src="@Url.Action("GetImage", "Account", new { userId = user.Id})" alt="Profile Image" >
+                <img class="position-absolute rounded-circle border border-white border-5" style="height:8rem; width: 8rem; top: -80px; left: 30%" src="@Url.Action("GetImage", "Account", new { userId = user.Id})" alt="Profile Image" >
             }
-            <div class="card-body">
-                <h5 class="card-title">@user.FullName</h5>
+            <div class="card-body position-relative">
+                <h5 class="card-title text-white pt-5">@user.FullName.ToUpper()</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group">@user.Email</li>
                     <li class="list-group">@((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description)</li>
                     <li class="list-group">LastLogin: @(user?.lastLogin == null ? "Never" : user.lastLogin)</li>
-                    <li class="list-group">Date Created: @user.DateCreated</li>
+                    <li class="list-group">Date Created: @user.DateCreated </li>
                 </ul>
+                <a class="btn btn-info position-absolute" style="bottom: 12px; right: 12px;" asp-action="Edit">Details</a>
             </div>
 
         </div>

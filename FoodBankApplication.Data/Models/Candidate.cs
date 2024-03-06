@@ -25,6 +25,12 @@ namespace FoodBankApplication.Data.Models
         public DateTime? DOB { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? LastModified { get; set; }
+        public bool DriverLicense { get; set; }
+        public bool Disability { get; set; }
+        public string ContactNumber { get; set; }
+        public bool ChildSupportGrant { get; set; }
+        public string OtherGrant { get; set; }
+        public string DesiredCareerPathComment { get; set; }
 
         public int StatusId { get; set; }
         public virtual Status Status { get; set; }
@@ -34,5 +40,8 @@ namespace FoodBankApplication.Data.Models
 
         public int MunicipalityId { get; set; }
         public virtual Municipality Municipality { get; set; }
+
+        public int WorkExperienceId { get; set; }
+        public List<WorkExperience> WorkExperiences { get; set; }
     }
 }
