@@ -191,7 +191,11 @@ namespace FoodBankApplication.Controllers
                 return View();
             }
 
-            string newPassword = Guid.NewGuid().ToString().Replace("-", "") + Guid.NewGuid().ToString().Replace("-", "");
+            string newPassword = Guid.NewGuid().ToString().Replace("-", "");
+            var salt = Security.GenerateSalt();
+            user.Salt = salt;
+            user.Password = Security.GenerateHash(newPassword + salt);
+            await _context.SaveChangesAsync();
             string emailMessage = $"Your user password has been reset.\n Your new password: {newPassword}";
             await _email.SendAsync("tezakwe@gmail.com", user.Email, "New Password Creation", emailMessage);
             TempData["MessageToShow"] = "New Password Succesfully Created";
