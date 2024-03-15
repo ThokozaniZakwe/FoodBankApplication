@@ -64,10 +64,10 @@
                                     </div>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 fs-4">@candidate.City</h6>
+                                    <h6 class="fw-semibold mb-0 fs-4">@candidate.City.Description</h6>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 fs-4">@candidate.Province</h6>
+                                    <h6 class="fw-semibold mb-0 fs-4">@candidate.Province.Description</h6>
                                 </td>
                                 <td class="border-bottom-0">
                                     <div class="d-flex align-items-center gap-2">
@@ -81,7 +81,7 @@
                                     <h6 class="fw-semibold text-center mb-0 fs-4">@candidate.HighSchoolGrade.Description</h6>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <h6 class="fw-semibold text-center mb-0 fs-4">@candidate.Municipality.Description</h6>
+                                    <h6 class="fw-semibold text-center mb-0 fs-4">@candidate?.Municipality?.Description</h6>
                                 </td>
                                 <td class="border-bottom-0">
                                     <div class="d-flex align-items-center gap-2">
