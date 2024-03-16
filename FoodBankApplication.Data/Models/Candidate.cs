@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace FoodBankApplication.Data.Models
         public string Gender { get; set; }
         public bool IsDisabled { get; set; }
         public string IDNumber { get; set; } = string.Empty;
+        [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "dd-MMM-yyyy")]
         public DateTime? DOB { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? LastModified { get; set; } = DateTime.Now;

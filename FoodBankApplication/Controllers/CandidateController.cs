@@ -107,11 +107,50 @@ namespace FoodBankApplication.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             Candidate candidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            var cities = await _context.Cities.Where(x => !x.IsDeleted).ToListAsync();
+            var provinces = await _context.Provinces.Where(x => !x.IsDeleted).ToListAsync();
+            var municipalities = await _context.Municipalities.Where(x => !x.IsDeleted).ToListAsync();
+            var highestSchoolGrades = await _context.HighSchoolGrades.Where(x => !x.IsDeleted).ToListAsync();
+            var statuses = await _context.Status.Where(x => !x.IsDeleted).ToListAsync();
+            ViewBag.Cities = new SelectList(cities, "Id", "Description");
+            ViewBag.Provinces = new SelectList(provinces, "Id", "Description");
+            ViewBag.Municipalities = new SelectList(municipalities, "Id", "Description");
+            ViewBag.HighestSchoolGrades = new SelectList(highestSchoolGrades, "Id", "Description");
+            ViewBag.Statuses = new SelectList(statuses, "Id", "Description");
+
             if (candidate != null)
             {
                 return View(candidate);
             }
 
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Candidate candidate)
+        {
+            if(candidate == null)
+            {
+                return View(candidate);
+            }
+            var dbCandidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == candidate.Id).FirstOrDefaultAsync();
+            if(dbCandidate == null)
+            {
+                return View(candidate);
+            }
+
+            return View(dbCandidate);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Candidate candidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            if(candidate != null)
+            {
+                candidate.IsDeleted = true;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return NotFound();
         }
     }
