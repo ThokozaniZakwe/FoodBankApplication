@@ -103,6 +103,17 @@ namespace FoodBankApplication.Controllers
             }            
             return NotFound();
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            Candidate candidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            if (candidate != null)
+            {
+                return View(candidate);
+            }
+
+            return NotFound();
+        }
     }
 
     public enum Provinces

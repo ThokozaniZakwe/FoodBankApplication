@@ -51,7 +51,7 @@
                     <tbody>
                         @foreach (var candidate in Model)
                         {
-                            <tr>
+                            <tr style="cursor:pointer" id="@candidate.Id" class="dataRow">
                                 <td class="border-bottom-0">
                                     <h6 class="fw-semibold mb-1">@candidate.Name</h6>
                                 </td>
@@ -107,6 +107,15 @@
         let search = document.querySelector('input[type="search"]');//.setAttribute('class', "form-control");
         console.log(search);
 
+        let row = document.querySelectorAll('.dataRow');
+
+        row.forEach(item => {
+            item.addEventListener('click', () => {
+                console.log(window.location.href);
+                window.location.href = window.location.href + '/Edit/' + item.id;
+            });
+            //console.log(item);
+        });
         
     });
 </script>
