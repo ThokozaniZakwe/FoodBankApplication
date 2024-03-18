@@ -106,7 +106,7 @@ namespace FoodBankApplication.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            Candidate candidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            Candidate candidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == id).Include(x => x.WorkExperiences).FirstOrDefaultAsync();
             var cities = await _context.Cities.Where(x => !x.IsDeleted).ToListAsync();
             var provinces = await _context.Provinces.Where(x => !x.IsDeleted).ToListAsync();
             var municipalities = await _context.Municipalities.Where(x => !x.IsDeleted).ToListAsync();
@@ -133,7 +133,7 @@ namespace FoodBankApplication.Controllers
             {
                 return View(candidate);
             }
-            var dbCandidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == candidate.Id).FirstOrDefaultAsync();
+            var dbCandidate = await _context.Candidates.Where(x => !x.IsDeleted && x.Id == candidate.Id).Include(x => x.WorkExperiences).FirstOrDefaultAsync();
             if(dbCandidate == null)
             {
                 return View(candidate);
@@ -152,6 +152,20 @@ namespace FoodBankApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddWorkExperience(WorkExperience work)
+        {
+            if(work != null)
+            {
+                await _context.WorkExperiences.AddAsync(work);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Edit), new { Id = work.CandidateId});
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 
