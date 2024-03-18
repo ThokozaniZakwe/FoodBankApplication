@@ -1,0 +1,39 @@
+﻿.img-card {
+    perspective: 1500px;
+    position: relative;
+    height: 500px;
+}
+
+.img-card-side {
+    color: #fff;
+    font-size: 20px;
+    height: 500px;
+    transition: all .9s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    box-shadow:0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-front {
+    /*background-color: white;*/
+    background-color: #ddd;
+    /*background-image: linear-gradient(to right bottom, rgba(255, 185, 0, .9), rgba(255, 119, 48, .9));*/
+}
+
+.img-card:hover .card-front {
+    transform: rotateY(-180deg);
+}
+
+.card-back {
+    background-color: greenyellow;
+    transform: rotateY(180deg);
+    border-bottom: 5px;
+}
+
+.img-card:hover .card-back {
+    transform: rotateY(0);
+}

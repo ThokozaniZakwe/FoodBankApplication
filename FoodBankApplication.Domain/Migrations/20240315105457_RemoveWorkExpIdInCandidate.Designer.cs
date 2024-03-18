@@ -4,6 +4,7 @@ using FoodBankApplication.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodBankApplication.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240315105457_RemoveWorkExpIdInCandidate")]
+    partial class RemoveWorkExpIdInCandidate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +72,7 @@ namespace FoodBankApplication.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("HighSchoolGradeId")
+                    b.Property<int>("HighSchoolGradeId")
                         .HasColumnType("int");
 
                     b.Property<string>("IDNumber")
@@ -85,7 +88,7 @@ namespace FoodBankApplication.Domain.Migrations
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MunicipalityId")
+                    b.Property<int>("MunicipalityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -107,7 +110,7 @@ namespace FoodBankApplication.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -305,7 +308,7 @@ namespace FoodBankApplication.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CandidateId")
+                    b.Property<int?>("CandidateId")
                         .HasColumnType("int");
 
                     b.Property<string>("Company")
@@ -427,11 +430,15 @@ namespace FoodBankApplication.Domain.Migrations
 
                     b.HasOne("FoodBankApplication.Data.Models.HighSchoolGrade", "HighSchoolGrade")
                         .WithMany()
-                        .HasForeignKey("HighSchoolGradeId");
+                        .HasForeignKey("HighSchoolGradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FoodBankApplication.Data.Models.Municipality", "Municipality")
                         .WithMany()
-                        .HasForeignKey("MunicipalityId");
+                        .HasForeignKey("MunicipalityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FoodBankApplication.Data.Models.Province", "Province")
                         .WithMany()
@@ -439,7 +446,9 @@ namespace FoodBankApplication.Domain.Migrations
 
                     b.HasOne("FoodBankApplication.Data.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusId");
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
 
@@ -456,9 +465,7 @@ namespace FoodBankApplication.Domain.Migrations
                 {
                     b.HasOne("FoodBankApplication.Data.Models.Candidate", null)
                         .WithMany("WorkExperiences")
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CandidateId");
                 });
 
             modelBuilder.Entity("FoodBankApplication.Data.Security.Role", b =>

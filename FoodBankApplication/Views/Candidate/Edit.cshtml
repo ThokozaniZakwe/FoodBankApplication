@@ -1,0 +1,198 @@
+﻿@model Candidate
+
+<h1 class="text-white text-center bg-info p-3">@Model.Name @Model.Surname</h1>
+<div>
+    <form asp-action="Edit">
+        <div class="d-flex justify-content-end mb-3">
+            <div class="form-floating me-auto">
+                <select asp-for="StatusId" asp-items="ViewBag.Statuses" class="form-control"></select>
+                <label>Status</label>
+            </div>
+            <button class="btn btn-info me-3" data-bs-toggle="modal" data-bs-target="#workExperinceModal" type="button">Add Work Experience <i class="fa-solid fa-user-gear"></i></button>
+            <button class="btn btn-success me-3" type="button">Print <i class="fa-solid fa-print"></i></button>
+            <button class="btn btn-primary me-3" type="submit">Save <i class="fa-solid fa-floppy-disk"></i></button>
+            <button data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger" type="button">Delete <i class="fa-solid fa-trash"></i></button>
+        </div>
+        <hr class="hr" />
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>FirstName</label>
+                <input class="form-control" asp-for="Name" />
+            </div>
+            <div class="col-6">
+                <label>Surname</label>
+                <input class="form-control" asp-for="Surname" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>ID Number</label>
+                <input class="form-control" asp-for="IDNumber" />
+            </div>
+            <div class="col-6">
+                <label>Date Of Birth</label>
+                <input class="form-control" asp-for="DOB" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>Street Address</label>
+                <input class="form-control" asp-for="AddressLine1" />
+            </div>
+            <div class="col-6">
+                <label>Suburb</label>
+                <input class="form-control" asp-for="AddressLine2" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>City</label>
+                <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-control"></select>
+            </div>
+            <div class="col-6">
+                <label>Province</label>
+                <select asp-for="ProvinceId" asp-items="ViewBag.Provinces" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>Postal Code</label>
+                <input class="form-control" asp-for="PostalCode" />
+            </div>
+            <div class="col-6">
+                <label>Contact Number</label>
+                <input class="form-control" asp-for="ContactNumber" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>Region</label>
+                <input class="form-control" asp-for="Region" />
+            </div>
+            <div class="col-6">
+                <label>Municipality</label>
+                <select asp-for="MunicipalityId" asp-items="ViewBag.Municipalities" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>Highest School Grade</label>
+                <select asp-for="HighSchoolGradeId" asp-items="ViewBag.HighestSchoolGrades" class="form-control"></select>
+            </div>
+            <div class="col-6">
+                <label>Desired Career Path</label>
+                <textarea class="form-control" asp-for="DesiredCareerPathComment" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>Other Grants</label>
+                <textarea class="form-control" asp-for="OtherGrant" rows="5"></textarea>
+            </div>
+            <div class="col-6">
+                <label>Comments</label>
+                <textarea class="form-control" asp-for="Comment" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-check form-switch form-check-inline">
+            <input asp-for="IsDisabled" class="form-check-input" />
+            <label asp-for="IsDisabled">Disabled</label>
+        </div>
+        <div class="form-check form-switch form-check-inline">
+            <input asp-for="DriverLicense" class="form-check-input" />
+            <label asp-for="DriverLicense">Driver's License'</label>
+        </div>
+        <div class="form-check form-switch form-check-inline">
+            <input asp-for="ChildSupportGrant" class="form-check-input" />
+            <label asp-for="ChildSupportGrant">Child Support Grant</label>
+        </div>
+
+    </form>
+</div>
+
+@if(Model.WorkExperiences != null)
+{
+    <div class="row d-flex mt-3">
+        @foreach (var workexperience in Model.WorkExperiences)
+        {
+            <div class="card me-3 mb-3" style="max-width: 18rem;">
+                <div class="card-header text-bg-primary">
+                    @workexperience.Company
+                </div>
+                <ul class="list-group list-group-flush border-2 border-primary" style="min-height: 182px;">
+                    <li class="list-group-item"><b>Start Date:</b> @workexperience.StartDate.ToString("dd-MMM-yyy")</li>
+                    <li class="list-group-item"><b>Start Date:</b> @workexperience.EndDate.ToString("dd-MMM-yyy")</li>
+                    <li class="list-group-item"><b>Position:</b> @workexperience.Position</li>
+                    <li class="list-group-item"><b>Duties:</b> @workexperience.Duties</li>
+                </ul>
+            </div>
+        }
+
+    </div>
+}
+
+
+@* Delete Modal *@
+<form asp-action="AddWorkExperience">
+    <div class="modal" tabindex="-1" id="workExperinceModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title">Add Work Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="candidateId" value="@Model.Id" />
+                    <div class="mb-2">
+                        <label>Company Name</label>
+                        <input class="form-control" name="company" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Start Date</label>
+                        <input class="form-control" type="date" name="startDate" />
+                    </div>
+                    <div class="mb-2">
+                        <label>End Date</label>
+                        <input class="form-control" type="date" name="endDate" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Position Held</label>
+                        <input class="form-control" name="position" />
+                    </div>
+                    <div>
+                        <label>Duties</label>
+                        <textarea class="form-control" name="duties" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Save <i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@* Delete Modal *@
+<div class="modal border border-danger" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete @Model.Name @Model.Surname</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-between align-items-center">
+                <h5 class="text-danger">Are you sure you want to delete @Model.Name @Model.Surname?</h5> <i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-danger" asp-route-id="@Model.Id" asp-action="Delete">Delete <i class="fa-solid fa-trash"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

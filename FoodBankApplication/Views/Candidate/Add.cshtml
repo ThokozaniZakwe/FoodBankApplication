@@ -32,9 +32,9 @@
                     <span class="text-danger" asp-validation-for="AddressLine1"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="City">City</label>
-                    <input tabindex="9" asp-for="City" class="form-control" />
-                    <span class="text-danger" asp-validation-for="City"></span>
+                    <label asp-for="City.Description">City</label>
+                    <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-control" tabindex="9"></select> 
+                    <span class="text-danger" asp-validation-for="City.Id"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="PostalCode">Postal Code</label>
@@ -42,14 +42,29 @@
                     <span class="text-danger" asp-validation-for="PostalCode"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="HighSchoolGradeId">Highest School Grade </label>
-                    <input tabindex="13" asp-for="HighSchoolGradeId" class="form-control" />
+                    <label asp-for="HighSchoolGrade.Description">Highest School Grade </label>
+                    <select asp-for="HighSchoolGradeId" asp-items="ViewBag.HighSchoolGrades" tabindex="13" class="form-control"></select>
                     <span class="text-danger" asp-validation-for="HighSchoolGradeId"></span>
                 </div>
-                <div class="form-check mb-2">
+                <div class="mb-4">
+                    <label asp-for="OtherGrant">Other Grants</label>
+                    <textarea tabindex="15" asp-for="OtherGrant" class="form-control"></textarea>
+                    <span class="text-danger" asp-validation-for="OtherGrant"></span>
+                </div>
+                <div class="form-check form-check-inline form-switch mb-2">
                     <input type="checkbox" asp-for="IsDisabled" class="form-check-input" />
-                    <label tabindex="15" asp-for="IsDisabled">Disabled</label>
-                    <span class="text-danger" asp-validation-for="IsDisabled"></span>
+                    <label tabindex="17" asp-for="IsDisabled">Disabled</label>
+                    <span class="text-danger" asp-validation-for="IsDisabled"></span>                       
+                </div>
+                <div class="form-check form-check-inline form-switch mb-2">
+                    <input type="checkbox" asp-for="DriverLicense" class="form-check-input" />
+                    <label tabindex="17" asp-for="DriverLicense">Driver's License</label>
+                    <span class="text-danger" asp-validation-for="DriverLicense"></span>
+                </div>
+                <div class="form-check form-check-inline form-switch mb-2">
+                    <input type="checkbox" asp-for="ChildSupportGrant" class="form-check-input" />
+                    <label tabindex="17" asp-for="ChildSupportGrant">Child Support Grant</label>
+                    <span class="text-danger" asp-validation-for="ChildSupportGrant"></span>
                 </div>
             </div>
             <div class="col-6">
@@ -68,15 +83,15 @@
                     <span class="text-danger" asp-validation-for="AddressLine2"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="Province">Province</label>
-                    <select tabIndex="8" class="form-control" asp-items="Html.GetEnumSelectList<Provinces>()">
+                    <label asp-for="Province.Description">Province</label>
+                    <select tabIndex="8" class="form-control" asp-for="ProvinceId" asp-items="@ViewBag.Provinces">
                     </select>
-                    <span class="text-danger" asp-validation-for="Province"></span>
+                    <span class="text-danger" asp-validation-for="Province.Id"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="ContactNumbers">Contact Number</label>
-                    <input tabIndex="10" asp-for="ContactNumbers" class="form-control" />
-                    <span class="text-danger" asp-validation-for="ContactNumbers"></span>
+                    <label asp-for="ContactNumber">Contact Number</label>
+                    <input tabindex="10" asp-for="ContactNumber" class="form-control" />
+                    <span class="text-danger" asp-validation-for="ContactNumber"></span>
                 </div>
                 <div class="mb-2">
                     <label asp-for="Region">Region</label>
@@ -84,16 +99,23 @@
                     <span class="text-danger" asp-validation-for="Region"></span>
                 </div>
                 <div class="mb-2">
-                    <label asp-for="Region">Municipality</label>
-                    <div class="input-group">
-                        <input tabindex="12" type="text" id="municipality" class="form-control" />
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#municipalityModal"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
+                    <label asp-for="Municipality">Municipality</label>
+                    @* <div class="input-group"> *@
+                        @* <input tabindex="12" type="text" id="municipality" class="form-control" /> *@
+                        @* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#municipalityModal"><i class="fa-solid fa-magnifying-glass"></i></button> *@
+                    @* </div> *@
+                    <select tabIndex="12" class="form-control" asp-for="MunicipalityId" asp-items="@ViewBag.Municipalities">
+                    </select>
                     <span class="text-danger" asp-validation-for="Region"></span>
                 </div>
                 <div class="mb-2">
+                    <label asp-for="DesiredCareerPathComment">Desire Career Path </label>
+                    <textarea tabindex="14" asp-for="DesiredCareerPathComment" class="form-control"></textarea>
+                    <span class="text-danger" asp-validation-for="DesiredCareerPathComment"></span>
+                </div>
+                <div class="mb-2">
                     <label asp-for="Comment">Comment</label>
-                    <textarea tabindex="14" asp-for="Comment" class="form-control" cols="5"></textarea>
+                    <textarea tabindex="16" asp-for="Comment" class="form-control" cols="5"></textarea>
                     <span class="text-danger" asp-validation-for="Comment"></span>
                 </div>
             </div>
@@ -203,4 +225,7 @@
             });
         }
     });
+
+    document.getElementById('DOB').defaultValue = new Date().toDateString();
+    
 </script>

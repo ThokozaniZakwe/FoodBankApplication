@@ -171,6 +171,39 @@ namespace FoodBankApplication.Controllers
             return View(user);
         }
 
+        public async Task<IActionResult> ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string emailAddress)
+        {
+            if(string.IsNullOrEmpty(emailAddress)){
+                ModelState.AddModelError("Password Reset!", "Email Address Invalid");
+                return View();
+            }
+
+            var user = await _context.Users.Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Email == emailAddress);
+            if(user == null)
+            {
+                ModelState.AddModelError("Password Reset!", "Email Address Invalid");
+                return View();
+            }
+
+            string newPassword = Guid.NewGuid().ToString().Replace("-", "");
+            var salt = Security.GenerateSalt();
+            user.Salt = salt;
+            user.Password = Security.GenerateHash(newPassword + salt);
+            await _context.SaveChangesAsync();
+            string emailMessage = $"Your user password has been reset.\n Your new password: {newPassword}";
+            await _email.SendAsync("tezakwe@gmail.com", user.Email, "New Password Creation", emailMessage);
+            TempData["MessageToShow"] = "New Password Succesfully Created";
+            TempData["MessageType"] = "Success";
+            return RedirectToAction(nameof(Login));
+
+        }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

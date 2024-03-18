@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/lib/apexcharts/apexcharts.min.css" />
     <script src="~/lib/apexcharts/apexcharts.min.js"></script>
     <link rel="stylesheet" href="~/lib/css/styles.min.css" />
+    <link rel="stylesheet" href="~/lib/css/cards.css" />
 
 </head>
 <body class="position-relative">
@@ -187,6 +188,10 @@
     <script src="~/lib/assets/js/dashboard.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
+    <script src="~/lib/exceljs/exceljs.min.js"></script>
+    <script src="~/lib/FileSaver.js/FileSaver.min.js"></script>
+
+
     <script>
         //Toast Section
         let toastMessage = document.querySelector('.toast');
@@ -202,6 +207,43 @@
 
         $(document).ready(function () {
             $('#candidatesPrint').DataTable();
+
+            document.getElementById('printExcel').addEventListener('click', exportToExcel);
+
+            function exportToExcel() {
+                const table = document.getElementById('candidatesPrint');
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet("Candidate Data");
+                const headerRow = worksheet.addRow([]);
+
+                const headerCells = table.getElementsByTagName('th');
+
+                for (let i = 0; i < headerCells.length; i++) {
+                    headerRow.getCell(i + 1).value = headerCells[i].innerText;
+                }
+
+                const rows = table.querySelectorAll('tbody tr');
+                console.log(rows);
+
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    const rowData = [];
+
+                    for (let j = 0; j < cells.length; j++) {
+                        rowData.push(cells[j].innerText);
+                    }
+
+                    worksheet.addRow(rowData);
+                }
+
+                workbook.xlsx.writeBuffer().then(buffer => {
+                    const blob = new Blob([buffer], {
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    });
+                    saveAs(blob, 'Candidates.xlsx');
+                });
+
+            }
         });
     </script>
 </body>
