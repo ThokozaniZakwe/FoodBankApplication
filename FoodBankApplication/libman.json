@@ -40,6 +40,10 @@
     {
       "library": "FileSaver.js@2.0.5",
       "destination": "wwwroot/lib/FileSaver.js/"
+    },
+    {
+      "library": "jquery-validate@1.20.0",
+      "destination": "wwwroot/lib/jquery-validate/"
     }
   ]
 }

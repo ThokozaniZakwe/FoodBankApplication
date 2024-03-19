@@ -16,12 +16,13 @@
 
 @if (Model.Count > 0)
 {
-    <div class="section-user-profiles d-flex justify-content-evenly mt-5">
+    <div class="section-user-profiles row gap-4"> 
+        @* " d-flex flex-wrap mt-5"> *@
         @foreach (User user in Model)
         {
 
 
-            <div class="img-card col-4">
+            <div class="img-card col-sm-4 col-lg-3 m-sm-3">
                 <div class="img-card-side bg-primary card-front p-3">
                     <h3 class="text-center text-white">@user.FullName.ToUpper()</h3>
                     <hr class="text-white mb-5" />
@@ -30,7 +31,7 @@
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Email</div>
                                 @* @user.Email *@
-                                <span class="rounded-pill bg-primary p-2">@user.Email</span>
+                                <span class="h5 p-2">@user.Email</span>
                             </div>
                         </li>
                         <hr class="text-dark" />
@@ -38,14 +39,14 @@
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Role</div>
                                 @* @((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description) *@
-                                <span class="rounded-pill bg-primary p-2">@((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description)</span>
+                                <span class="rounded-pill h5 bg-primary p-2">@((ViewData["Roles"] as List<Role>).FirstOrDefault(x => x.Id == user.RoleId).Description)</span>
                             </div>
                         </li>
                         <hr class="text-dark" />
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold mb-2">Last Login</div>
-                                <span class="rounded-pill bg-primary p-2">@user.lastLogin</span>
+                                <span class="rounded-pill h5 bg-primary p-2">@(user?.lastLogin == null ? "Never" : user?.lastLogin)</span>
                             </div>
                         </li>
                     </ul>
@@ -55,6 +56,10 @@
                     {
                         <img class="img-fluid" style="height: 100%; width: 100%;" src="@Url.Action("GetImage", "Account", new { userId = user.Id})" alt="Profile Image">
                         <a class="ms-5 mb-2 btn btn-primary position-absolute bottom-0 start-0 w-75">Details</a>
+                    }else{
+                        <div class="no-profile-image container-fluid text-primary">
+                            Image Missing
+                        </div>
                     }
                 </div>
             </div>

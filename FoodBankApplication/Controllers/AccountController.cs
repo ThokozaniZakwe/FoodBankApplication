@@ -122,8 +122,18 @@ namespace FoodBankApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAsync([Bind(include: "Name,Surname,Email,Password,RoleId")]User user)
         {
+            ViewBag.Roles = new SelectList(_context.Roles, "Id", "Description");
             if (user == null)
             {
+                return View(user);
+            }
+
+            var dbUser = await _context.Users.Where(x => user.Email == x.Email).FirstOrDefaultAsync();
+            if(dbUser != null)
+            {
+                ModelState.Clear();
+                ModelState.AddModelError("Error", "User already exists!");
+
                 return View(user);
             }
 
@@ -145,12 +155,15 @@ namespace FoodBankApplication.Controllers
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    IFormFile imgFile = Request.Form.Files[0];
-                    if (imgFile != null)
+                    if(Request.Form.Files.Count() > 0)
                     {
-                        await imgFile.CopyToAsync(memoryStream);
-                        newUser.Image = memoryStream.ToArray();
-                    }
+                        IFormFile imgFile = Request.Form.Files[0];
+                        if (imgFile != null)
+                        {
+                            await imgFile.CopyToAsync(memoryStream);
+                            newUser.Image = memoryStream.ToArray();
+                        }
+                    }                    
                 }
 
                 await _context.Users.AddAsync(newUser);

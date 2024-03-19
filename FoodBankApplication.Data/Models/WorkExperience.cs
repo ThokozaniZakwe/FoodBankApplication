@@ -10,12 +10,20 @@ namespace FoodBankApplication.Data.Models
     public class WorkExperience
     {
         public int Id { get; set; }
+        [Required]
+        [MinLength(3)]
         public string Company { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+        [Required]
+        [MinLength(3)]
         public string Duties { get; set; }
+        [Required]
+        [MinLength(3)]
         public string Position { get; set; }
         public int CandidateId { get; set; }
         public bool IsDeleted { get; set; } = false;

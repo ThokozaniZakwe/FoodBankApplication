@@ -5,7 +5,7 @@
         <a class="nav-link" asp-action="Index">All Users <i class="fa-solid fa-users"></i></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" asp-action="Register">Add User <i class="fa-solid fa-user-plus"></i></a>
+        <a class="nav-link active" asp-action="Register">Register User <i class="fa-solid fa-user-plus"></i></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" asp-action="Edit">Edit User <i class="fa-solid fa-user-pen"></i></a>
@@ -17,15 +17,19 @@
 
 <h3 class="bg-primary text-center text-white p-2 rounded-1">Register a New User <i class="fa-regular fa-user"></i> </h3>
 
-<form method="post" enctype="multipart/form-data">
-    <div class="alert alert-danger" asp-validation-summary="All"></div>
+<form method="post" enctype="multipart/form-data" id="userForm">
+    @if (ViewContext.ModelState.ErrorCount > 0)
+    {
+        <div class="alert alert-danger" asp-validation-summary="All"></div>
+    }
     <div class="mb-1">
         <label asp-for="@Model.Name">FirstName</label>
-        <input class="form-control" asp-for="@Model.Name" />
+        <input class="form-control" asp-for="@Model.Name" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-1">
         <label asp-for="@Model.Surname">Surname</label>
-        <input class="form-control" asp-for="@Model.Surname" />
+        <input class="form-control" asp-for="@Model.Surname" required />
     </div>
     <div class="mb-1">
         <label class="form-label" asp-for="@Model.Image">Please upload an image</label>
@@ -38,13 +42,65 @@
     </div>
     <div class="mb-1">
         <label asp-for="@Model.Email">Username</label>
-        <input class="form-control" asp-for="@Model.Email" />
+        <input class="form-control" type="email" asp-for="@Model.Email" required />
     </div>
     <div class="mb-2">
         <label asp-for="@Model.Password">Password</label>
-        <input class="form-control" type="password" asp-for="@Model.Password" />
+        <input class="form-control" type="password" asp-for="@Model.Password" required />
     </div>
     <div>
-        <button class="btn btn-outline-primary">Save <i class="fa-regular fa-floppy-disk"></i></button>
+        <button type="submit" class="btn btn-outline-primary">Save <i class="fa-regular fa-floppy-disk"></i></button>
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.clear();
+        console.log('DOM Ready!');
+
+        $('#userForm').validate();
+
+        const allInputs = document.querySelectorAll('#userForm input');
+        const errLabels = document.querySelectorAll('label');
+        
+
+        document.querySelector('button[type=submit]').addEventListener('click', () => {
+            //console.clear();
+            console.log('submit clicked!');
+            // allInputs[0].classList.add('observing');
+             console.log(allInputs);
+        }); 
+        
+        const mutOserver = new MutationObserver(entries => {
+            console.log(entries);
+            entries.forEach(entry => {
+                if (entry.target.classList.contains('error')) {
+                    entry.target.classList.add('is-invalid');
+                    mutOserver.disconnect();
+                } else {
+                    entry.target.classList.remove('is-invalid');
+                    mutOserver.disconnect();
+                }
+                console.log(entry);
+                moFunction();
+            });
+            
+        });
+        
+
+        function moFunction() {
+            allInputs.forEach(item => {
+                mutOserver.observe(item, { attributes: true });
+            });
+        }
+        
+        moFunction();
+
+    });
+</script>
+
+    <style>
+        label.error{
+            color: red;
+        }
+    </style>
